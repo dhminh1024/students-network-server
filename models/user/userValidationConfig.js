@@ -44,4 +44,7 @@ module.exports = {
   registerAdmin: "User Register Successfully.",
   emailVerify: "Email Verified Successful",
   subscribeFail: "Subscription failed",
+  notAllowPublicRegistration: "Public Registration not allowed",
+  userNotFound: "User not found",
+  wrongPassword: "Password incorrect",
 };

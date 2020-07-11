@@ -15,25 +15,25 @@ const userController = {};
 
 userController.validLoginResponse = async (req, user, next) => {
   try {
-    // let accesses = await Accesses.find(
-    //   { role_id: user.roles, is_active: true },
-    //   { access_type: 1, _id: 0 }
-    // );
-    // let routes = [];
-    // if (accesses && accesses.length) {
-    //   const access = accesses
-    //     .map((a) => a.access_type)
-    //     .reduce((acc, curr) => [...curr, ...acc]);
-    //   const routers = await Modules.find(
-    //     { "path._id": access },
-    //     { "path.admin_routes": 1, "path.access_type": 1 }
-    //   );
-    //   for (let i = 0; i < routers.length; i++) {
-    //     for (let j = 0; j < routers[i].path.length; j++) {
-    //       routes.push(routers[i].path[j]);
-    //     }
-    //   }
-    // }
+    let accesses = await Accesses.find(
+      { role_id: user.roles, is_active: true },
+      { access_type: 1, _id: 0 }
+    );
+    let routes = [];
+    if (accesses && accesses.length) {
+      const access = accesses
+        .map((a) => a.access_type)
+        .reduce((acc, curr) => [...curr, ...acc]);
+      const routers = await Modules.find(
+        { "path._id": access },
+        { "path.admin_routes": 1, "path.access_type": 1 }
+      );
+      for (let i = 0; i < routers.length; i++) {
+        for (let j = 0; j < routers[i].path.length; j++) {
+          routes.push(routers[i].path[j]);
+        }
+      }
+    }
 
     // Create JWT payload
     const payload = {
@@ -50,7 +50,7 @@ userController.validLoginResponse = async (req, user, next) => {
     });
     loginLogController.addLoginLog(req, token, next);
     token = `Bearer ${token}`;
-    // payload.routes = routes; // For controling module access
+    payload.routes = routes; // For controling module access
     return { token, payload };
   } catch (err) {
     next(err);

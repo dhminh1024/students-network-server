@@ -10,9 +10,7 @@ const useragent = require("useragent");
 const requestIp = require("request-ip");
 
 const utilHelper = require("../helpers/util.helper");
-const { secretOrKey } = process.env.SECRETKEY
-  ? process.env.SECRETKEY
-  : require("../config/keys");
+const { secretOrKey } = require("../config/keys");
 const authMiddleware = {};
 
 authMiddleware.authorization = async (req, res, next) => {
@@ -31,7 +29,7 @@ authMiddleware.authorization = async (req, res, next) => {
       if (passed) {
         return next();
       } else {
-        return otherHelper.sendResponse(
+        return utilHelper.sendResponse(
           res,
           HttpStatus.UNAUTHORIZED,
           false,
@@ -42,7 +40,7 @@ authMiddleware.authorization = async (req, res, next) => {
         );
       }
     }
-    return otherHelper.sendResponse(
+    return utilHelper.sendResponse(
       res,
       HttpStatus.UNAUTHORIZED,
       false,
@@ -70,7 +68,7 @@ authMiddleware.authorizationForLogout = async (req, res, next) => {
       req.user = jwtpayload;
       return next();
     }
-    return otherHelper.sendResponse(
+    return utilHelper.sendResponse(
       res,
       HttpStatus.UNAUTHORIZED,
       false,
@@ -109,7 +107,7 @@ authMiddleware.authentication = async (req, res, next) => {
         }
       }
     } else {
-      return otherHelper.sendResponse(
+      return utilHelper.sendResponse(
         res,
         HttpStatus.UNAUTHORIZED,
         false,
@@ -135,7 +133,7 @@ authMiddleware.authentication = async (req, res, next) => {
           return next();
         }
       }
-      return otherHelper.sendResponse(
+      return utilHelper.sendResponse(
         res,
         HttpStatus.UNAUTHORIZED,
         false,
@@ -145,7 +143,7 @@ authMiddleware.authentication = async (req, res, next) => {
         null
       );
     } else {
-      return otherHelper.sendResponse(
+      return utilHelper.sendResponse(
         res,
         HttpStatus.UNAUTHORIZED,
         false,

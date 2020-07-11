@@ -14,6 +14,7 @@ const mongoURI = process.env.MONGODB_URI
 const routes = require("./routes/index");
 const utilHelper = require("./helpers/util.helper");
 const cors = require("cors");
+const { AddErrorToLogs } = require("./controllers/bugController");
 
 const app = express();
 

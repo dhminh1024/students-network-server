@@ -6,7 +6,7 @@ const loginLogsController = require("../../controllers/loginLogControler");
 const userController = require("../../controllers/userController");
 const {
   authorization,
-  authorizationForLogout,
+  authenticationForLogout,
   authentication,
   getClientInfo,
 } = require("../../middleware/authentication");
@@ -36,5 +36,19 @@ router.post(
   getClientInfo,
   userController.Login
 );
+
+/**
+ * @route POST api/user/logout
+ * @description remove token from loginlog
+ * @access Public
+ */
+router.get("/logout", authenticationForLogout, loginLogsController.logout);
+
+/**
+ * @route GET api/user/profile
+ * @description get user profile info
+ * @access Public
+ */
+router.get("/profile", authentication, userController.GetProfile);
 
 module.exports = router;

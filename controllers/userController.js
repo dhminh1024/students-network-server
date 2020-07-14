@@ -284,4 +284,25 @@ userController.Login = async (req, res, next) => {
   }
 };
 
+userController.GetProfile = async (req, res, next) => {
+  try {
+    let populate = [{ path: "roles", select: "_id role_title" }];
+    const userProfile = await Users.findById(
+      req.user.id,
+      "name date_of_birth email added_at email_verified roles"
+    ).populate(populate);
+    return utilHelper.sendResponse(
+      res,
+      httpStatus.OK,
+      true,
+      userProfile,
+      null,
+      null,
+      null
+    );
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = userController;

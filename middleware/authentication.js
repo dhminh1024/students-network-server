@@ -13,12 +13,12 @@ const utilHelper = require("../helpers/util.helper");
 const { secretOrKey } = require("../config/keys");
 const authMiddleware = {};
 
-authMiddleware.authorization = async (req, res, next) => {
+authMiddleware.authentication = async (req, res, next) => {
   try {
     let token =
       req.body.token ||
       req.query.token ||
-      req.headers["x-access-token"] ||
+      req.headers["x-auth-token"] ||
       req.headers.authorization ||
       req.headers.token;
     if (token && token.length) {
@@ -54,12 +54,12 @@ authMiddleware.authorization = async (req, res, next) => {
   }
 };
 
-authMiddleware.authorizationForLogout = async (req, res, next) => {
+authMiddleware.authenticationForLogout = async (req, res, next) => {
   try {
     let token =
       req.body.token ||
       req.query.token ||
-      req.headers["x-access-token"] ||
+      req.headers["x-auth-token"] ||
       req.headers.authorization ||
       req.headers.token;
     if (token && token.length) {
@@ -82,10 +82,10 @@ authMiddleware.authorizationForLogout = async (req, res, next) => {
   }
 };
 
-authMiddleware.authentication = async (req, res, next) => {
+authMiddleware.authorization = async (req, res, next) => {
   try {
     const user = req.user;
-    const role = await Roles.find({ _id: { $in: user.roles } }, { _id: 1 });
+    const roles = await Roles.find({ _id: { $in: user.roles } }, { _id: 1 });
     let path = req.baseUrl + req.route.path;
     if (path.substr(path.length - 1) === "/") {
       path = path.slice(0, path.length - 1);
@@ -119,9 +119,9 @@ authMiddleware.authentication = async (req, res, next) => {
     }
 
     const moduleId = modules && modules._id;
-    if (role && role.length && moduleId && moduleAccessTypeId) {
-      for (let i = 0; i < role.length; i++) {
-        const activeRole = role[i];
+    if (roles && roles.length && moduleId && moduleAccessTypeId) {
+      for (let i = 0; i < roles.length; i++) {
+        const activeRole = roles[i];
         const accessFilter = {
           role_id: activeRole._id,
           is_active: true,

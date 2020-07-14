@@ -276,7 +276,7 @@ roleController.DeleteModule = async (req, res, next) => {
   }
 };
 
-roleController.getAccessList = async (req, res, next) => {
+roleController.GetAccessList = async (req, res, next) => {
   try {
     selectQuery = "_id is_active access_type module_id role_id";
     const accesses = await Accesses.find().select(selectQuery);

@@ -18,7 +18,7 @@
     "express-device": "^0.4.2",
     "hpp": "^0.2.3",
     "http-status": "^1.4.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.9.22",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
